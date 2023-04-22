@@ -1,28 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>GCP Chat Bot</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    </head>
-    <body>
-        <div>
-            <h2>User Information:</h2>
-            <form action="" method="post">
-                <label for="fname">First name:</label>
-                <input type="text" id="fname" name="fname" value="{{request.form.fname}}" required><br><br>
-                <label for="lname">Last name:</label>
-                <input type="text" id="lname" name="lname" value="{{request.form.lname}}" required><br><br>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{request.form.email}}" required><br><br>
-                <input class="btn btn-default" type="submit" value="Start">
-            </form>
-            {% if error %}
-            <p class="error"><strong>Error:</strong> {{ error }}
-            {% endif %}
-        </div>
-        
-    </body>
+<html>
+  <head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div>
+      <h1>Welcome, please login.</h1>
+      <br>
+      <a href=login>
+      	<button>Login</button>	
+      </a>
+      <a href=account_creation>
+      	<button>Create Account</button>
+      </a>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
 </html>

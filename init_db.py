@@ -11,10 +11,10 @@ connection.commit()
 
 cursor = connection.cursor()
 
-householdFile = open('./data/400_households.csv')
-householdContents = csv.reader(householdFile)
-insert_households = "INSERT INTO households (HSHD_NUM, L, AGE_RANGE, MARITAL, INCOME_RANGE, HOMEOWNER, HSHD_COMPOSITION, HH_SIZE, CHILDREN) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
-cursor.executemany(insert_households, householdContents)
+# householdFile = open('./data/400_households.csv')
+# householdContents = csv.reader(householdFile)
+# insert_households = "INSERT INTO households (HSHD_NUM, L, AGE_RANGE, MARITAL, INCOME_RANGE, HOMEOWNER, HSHD_COMPOSITION, HH_SIZE, CHILDREN) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+# cursor.executemany(insert_households, householdContents)
 
 # df = pandas.read_csv("./data/400_households.csv")
 # df.to_sql("households", connection, if_exists='append', index=False)
