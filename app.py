@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3
 import pandas as pd
+import sys
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -55,7 +56,8 @@ def get_data(hshd_num=10):
             data.append(table_row)
     data = pd.DataFrame(data)
     if not data.empty:
-        data = data.sort_values(['HSHD_NUM', 'BASKET_NUM', 'PURCHASE', 'PRODUCT_NUM', 'DEPARTMENT', 'COMMODITY'])
+        data = data.sort_values(
+            ['HSHD_NUM', 'BASKET_NUM', 'PURCHASE', 'PRODUCT_NUM', 'DEPARTMENT', 'COMMODITY'])
     else:
         data = pd.DataFrame()
     return data
@@ -128,6 +130,7 @@ def sample_data_pull_10():
     data = get_data(10)
     return render_template('sample_data_pull_10.html', data=data)
 
+
 @app.route('/interactive_search', methods=['GET', 'POST'])
 def interactive_search():
     if request.method == 'POST':
@@ -138,6 +141,24 @@ def interactive_search():
         else:
             return render_template('interactive_search.html', data=data, hshd_num=hshd_num)
     return render_template('interactive_search.html', data=pd.DataFrame(), hshd_num=None)
+
+
+@app.route('/demographics')
+def demographics():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    # cur.execute(
+    #     "SELECT HSHD_NUM FROM transactions GROUP BY HSHD_NUM HAVING COUNT(*) = (SELECT MAX(Cnt) FROM (SELECT COUNT(*) as Cnt FROM transactions GROUP BY HSHD_NUM) tmp)")
+    cur.execute(
+        "SELECT HSHD_NUM FROM transactions GROUP BY HSHD_NUM ORDER BY COUNT(HSHD_NUM) DESC")
+    households = cur.fetchmany(3)
+    conn.close()
+    top1 = households[0][0]
+    top2 = households[1][0]
+    top3 = households[2][0]
+    print(households, file=sys.stderr)
+    return render_template('demographics.html', top1=top1, top2=top2, top3=top3)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
