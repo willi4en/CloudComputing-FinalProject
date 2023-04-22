@@ -62,6 +62,37 @@ def get_data(hshd_num=10):
         data = pd.DataFrame()
     return data
 
+def get_hshd_attrs(hshd_list):
+    data = []
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM households WHERE HSHD_NUM IN ({})".format(', '.join(['?']*len(hshd_list))), hshd_list)
+    household_data = cur.fetchall()
+    for household in household_data:
+        table_row = {
+            'HSHD_NUM': household[0],
+            'LOYALTY_FLAG': household_data[1],
+            'AGE_RANGE': household_data[2],
+            'MARITAL': household_data[3],
+            'INCOME_RANGE': household_data[4],
+            'HOMEOWNER': household_data[5],
+            'HSHD_COMPOSITION': household_data[6],
+            'HH_SIZE': household_data[7],
+            'CHILDREN': household_data[8]
+            }
+        data.append(table_row)
+    data = pd.DataFrame(data)
+    if not data.empty:
+        unique_counts = data.nunique().sort_values().head(3)
+        # get the most common values in each of the top 3 columns
+        most_common = {}
+        for col in unique_counts.index:
+            most_common[col] = hshd_list[col].value_counts().idxmax()
+        data = pd.DataFrame(most_common)    
+    else:
+        data = pd.DataFrame()
+    return data
+
 
 @app.route('/')
 def home():
