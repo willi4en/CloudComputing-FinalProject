@@ -11,59 +11,62 @@
       <div>
         <a href="{{url_for('home')}}"><button>Home</button></a>
       </div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th style="color: purple;">HSHD_NUM</th>
-              <th style="color: turquoise;">BASKET_NUM</th>
-              <th style="color: turquoise;">PURCHASE</th>
-              <th style="color: turquoise;">PRODUCT_NUM</th>
-              <th style="color: orangered;">DEPARTMENT</th>
-              <th style="color: orangered;">COMMODITY</th>
-              <th style="color: turquoise;">SPEND</th>
-              <th style="color: turquoise;">UNITS</th>
-              <th style="color: turquoise;">STORE_R</th>
-              <th style="color: turquoise;">WEEK_NUM</th>
-              <th style="color: turquoise;">YEAR</th>
-              <th style="color: purple;">LOYALTY_FLAG</th>
-              <th style="color: purple;">AGE_RANGE</th>              
-              <th style="color: purple;">MARITAL</th>
-              <th style="color: purple;">HOMEOWNER</th>
-              <th style="color: purple;">INCOME_RANGE</th>
-              <th style="color: purple;">HSHD_COMPOSITION</th>
-              <th style="color: purple;">HH_SIZE</th>
-              <th style="color: purple;">CHILDREN</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if not data.empty %}
-            {% for _, row in data.iterrows() %}
-            <tr>
-              <td style="color: purple;">{{row['HSHD_NUM']}}</td>
-              <td style="color: turquoise;">{{row['BASKET_NUM']}}</td>
-              <td style="color: turquoise;">{{row['PURCHASE']}}</td>
-              <td style="color: turquoise;">{{row['PRODUCT_NUM']}}</td>
-              <td style="color: orangered;">{{row['DEPARTMENT']}}</td>
-              <td style="color: orangered;">{{row['COMMODITY']}}</td>
-              <td style="color: turquoise;">{{row['SPEND']}}</td>
-              <td style="color: turquoise;">{{row['UNITS']}}</td>
-              <td style="color: turquoise;">{{row['STORE_R']}}</td>
-              <td style="color: turquoise;">{{row['WEEK_NUM']}}</td>
-              <td style="color: turquoise;">{{row['YEAR']}}</td>
-              <td style="color: purple;">{{row['LOYALTY_FLAG']}}</td>
-              <td style="color: purple;">{{row['AGE_RANGE']}}</td>
-              <td style="color: purple;">{{row['MARITAL']}}</td>
-              <td style="color: purple;">{{row['HOMEOWNER']}}</td>
-              <td style="color: purple;">{{row['INCOME_RANGE']}}</td>
-              <td style="color: purple;">{{row['HSHD_COMPOSITION']}}</td>
-              <td style="color: purple;">{{row['HH_SIZE']}}</td>
-              <td style="color: purple;">{{row['CHILDREN']}}</td>
-            </tr>
-            {% endfor %}
-            {% endif %}
-          </tbody>
-        </table>
-        </div>
+      <div class="card-body">
+        <div style="overflow-x:auto;" class="table-responsive">
+          <table class="table tablesorter ">
+            <thead class="text-primary">
+              <tr>
+                <th style="color: purple;">HSHD_NUM</th>
+                <th style="color: turquoise;">BASKET_NUM</th>
+                <th style="color: turquoise;">PURCHASE</th>
+                <th style="color: turquoise;">PRODUCT_NUM</th>
+                <th style="color: orangered;">DEPARTMENT</th>
+                <th style="color: orangered;">COMMODITY</th>
+                <th style="color: turquoise;">SPEND</th>
+                <th style="color: turquoise;">UNITS</th>
+                <th style="color: turquoise;">STORE_R</th>
+                <th style="color: turquoise;">WEEK_NUM</th>
+                <th style="color: turquoise;">YEAR</th>
+                <th style="color: purple;">LOYALTY_FLAG</th>
+                <th style="color: purple;">AGE_RANGE</th>              
+                <th style="color: purple;">MARITAL</th>
+                <th style="color: purple;">HOMEOWNER</th>
+                <th style="color: purple;">INCOME_RANGE</th>
+                <th style="color: purple;">HSHD_COMPOSITION</th>
+                <th style="color: purple;">HH_SIZE</th>
+                <th style="color: purple;">CHILDREN</th>
+              </tr>
+            </thead>
+            <tbody class="text-secondary">
+              {% if not data.empty %}
+              {% for _, row in data.iterrows() %}
+              <tr>
+                <td style="color: purple;">{{row['HSHD_NUM']}}</td>
+                <td style="color: turquoise;">{{row['BASKET_NUM']}}</td>
+                <td style="color: turquoise;">{{row['PURCHASE']}}</td>
+                <td style="color: turquoise;">{{row['PRODUCT_NUM']}}</td>
+                <td style="color: orangered;">{{row['DEPARTMENT']}}</td>
+                <td style="color: orangered;">{{row['COMMODITY']}}</td>
+                <td style="color: turquoise;">{{row['SPEND']}}</td>
+                <td style="color: turquoise;">{{row['UNITS']}}</td>
+                <td style="color: turquoise;">{{row['STORE_R']}}</td>
+                <td style="color: turquoise;">{{row['WEEK_NUM']}}</td>
+                <td style="color: turquoise;">{{row['YEAR']}}</td>
+                <td style="color: purple;">{{row['LOYALTY_FLAG']}}</td>
+                <td style="color: purple;">{{row['AGE_RANGE']}}</td>
+                <td style="color: purple;">{{row['MARITAL']}}</td>
+                <td style="color: purple;">{{row['HOMEOWNER']}}</td>
+                <td style="color: purple;">{{row['INCOME_RANGE']}}</td>
+                <td style="color: purple;">{{row['HSHD_COMPOSITION']}}</td>
+                <td style="color: purple;">{{row['HH_SIZE']}}</td>
+                <td style="color: purple;">{{row['CHILDREN']}}</td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+          </div>
+      </div>
+     
   </body>
 </html>
