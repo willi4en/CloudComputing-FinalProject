@@ -35,8 +35,7 @@
             </tr>
           </thead>
           <tbody>
-            {% if not data.empty %}
-            {% for row in data.iterrows() %}
+            {% for row in data %}
             <tr>
               <td style="color: purple;">{{row['HSHD_NUM']}}</td>
               <td style="color: turquoise;">{{row['BASKET_NUM']}}</td>
@@ -59,7 +58,6 @@
               <td style="color: purple;">{{row['CHILDREN']}}</td>
             </tr>
             {% endfor %}
-            {% endif %}
           </tbody>
         </table>
         <a href="{{url_for('home')}}" class="button"> Back </a>
