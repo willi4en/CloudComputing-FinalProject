@@ -36,7 +36,7 @@
           </thead>
           <tbody>
             {% if not data.empty %}
-            {% for row in data.iterrows() %}
+            {% for _, row in data.iterrows() %}
             <tr>
               <td style="color: purple;">{{row['HSHD_NUM']}}</td>
               <td style="color: turquoise;">{{row['BASKET_NUM']}}</td>

@@ -122,7 +122,6 @@ def dashboard():
 @app.route('/sample_data_pull_10')
 def sample_data_pull_10():
     data = get_data(10)
-    print(data)
     return render_template('sample_data_pull_10.html', data=data)
 
 
