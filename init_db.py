@@ -11,17 +11,26 @@ connection.commit()
 
 cursor = connection.cursor()
 
-# householdFile = open('./data/400_households.csv')
-# householdContents = csv.reader(householdFile)
-# insert_households = "INSERT INTO households (HSHD_NUM, L, AGE_RANGE, MARITAL, INCOME_RANGE, HOMEOWNER, HSHD_COMPOSITION, HH_SIZE, CHILDREN) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
-# cursor.executemany(insert_households, householdContents)
+householdFile = open('./data/400_households.csv')
+householdContents = csv.reader(householdFile)
+next(householdContents)
+insert_households = "INSERT INTO households (HSHD_NUM, L, AGE_RANGE, MARITAL, INCOME_RANGE, HOMEOWNER, HSHD_COMPOSITION, HH_SIZE, CHILDREN) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+cursor.executemany(insert_households, householdContents)
 
-# df = pandas.read_csv("./data/400_households.csv")
-# df.to_sql("households", connection, if_exists='append', index=False)
-# df = pandas.read_csv("./data/products.csv")
-# df.to_sql("products", connection, if_exists='append', index=False)
-# df = pandas.read_csv("./data/transactions.csv")
-# df.to_sql("transactions", connection, if_exists='append', index=False)
+# Storing products table
+productsFile = open('./data/400_products.csv')
+productsContents = csv.reader(productsFile)
+next(productsContents)
+insert_products = "INSERT INTO products (PRODUCT_NUM, DEPARTMENT, COMMODITY, BRAND_TY, NATURAL_ORGANIC_FLAG) VALUES(?, ?, ?, ?, ?)"
+cursor.executemany(insert_products, productsContents)
+
+# Storing transactions table
+transactionsFile = open('./data/400_transactions.csv')
+transactionsContents = csv.reader(transactionsFile)
+next(transactionsContents)
+insert_transactions = "INSERT INTO transactions (BASKET_NUM, HSHD_NUM, PURCHASE, PRODUCT_NUM, SPEND, UNITS, STORE_R, WEEK_NUM, YEAR) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+cursor.executemany(insert_transactions, transactionsContents)
+
 
 connection.commit()
 
