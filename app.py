@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3
+import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -51,6 +52,7 @@ def get_data(hshd_num=10):
             'CHILDREN': household_data[8]
             }
             data.append(table_row)
+    data = pd.DataFrame(data).sort_values(['HSHD_NUM', 'BASKET_NUM', 'PURCHASE', 'PRODUCT_NUM', 'DEPARTMENT', 'COMMODITY'])
     return data
 
 
@@ -118,6 +120,7 @@ def dashboard():
 @app.route('/sample_data_pull_10')
 def sample_data_pull_10():
     data = get_data(10)
+    print(data)
     return render_template('sample_data_pull_10.html', data=data)
 
 if __name__ == '__main__':
