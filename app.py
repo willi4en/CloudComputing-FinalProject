@@ -26,29 +26,30 @@ def get_data(hshd_num=10):
     transactions_data = cur.fetchall()
     for transaction in transactions_data:
         product_num = transaction[4]
-        cur.execute("SELECT * FROM products WHERE PRODUCT_NUM = (?)", [product_num])
+        cur.execute(
+            "SELECT * FROM products WHERE PRODUCT_NUM = (?)", [product_num])
         product_data = cur.fetchall()
         for product in product_data:
             table_row = {
-            'HSHD_NUM': 10,
-            'AGE_RANGE': household_data[2],
-            'BASKET_NUM': transaction[1],
-            'PURCHASE': transaction[3],
-            'PRODUCT_NUM': transaction[4],
-            'DEPARTMENT': product[1],
-            'COMMODITY': product[2],
-            'SPEND': transaction[5],
-            'UNITS': transaction[6],
-            'STORE_R': transaction[7],
-            'WEEK_NUM': transaction[8],
-            'LOYALTY_FLAG': household_data[1],
-            'YEAR': transaction[9],
-            'MARITAL': household_data[3],
-            'HOMEOWNER': household_data[5],
-            'INCOME_RANGE': household_data[4],
-            'HSHD_COMPOSITION': household_data[6],
-            'HH_SIZE' : household_data[7],
-            'CHILDREN': household_data[8]
+                'HSHD_NUM': 10,
+                'AGE_RANGE': household_data[2],
+                'BASKET_NUM': transaction[1],
+                'PURCHASE': transaction[3],
+                'PRODUCT_NUM': transaction[4],
+                'DEPARTMENT': product[1],
+                'COMMODITY': product[2],
+                'SPEND': transaction[5],
+                'UNITS': transaction[6],
+                'STORE_R': transaction[7],
+                'WEEK_NUM': transaction[8],
+                'LOYALTY_FLAG': household_data[1],
+                'YEAR': transaction[9],
+                'MARITAL': household_data[3],
+                'HOMEOWNER': household_data[5],
+                'INCOME_RANGE': household_data[4],
+                'HSHD_COMPOSITION': household_data[6],
+                'HH_SIZE': household_data[7],
+                'CHILDREN': household_data[8]
             }
             data.append(table_row)
     return data
@@ -115,10 +116,12 @@ def dashboard():
         else:
             return render_template('dashboard.html')
 
+
 @app.route('/sample_data_pull_10')
 def sample_data_pull_10():
     data = get_data(10)
     return render_template('sample_data_pull_10.html', data=data)
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
