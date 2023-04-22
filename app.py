@@ -17,7 +17,7 @@ def get_db_connection():
 
 
 @app.route('/')
-def hello():
+def home():
     return render_template('home.html')
 
 
@@ -36,7 +36,7 @@ def login():
         if (user is not None):
             conn.close()
             session['currentUser'] = user[0]
-            return redirect(url_for('profile'))
+            return redirect(url_for('dashboard'))
         else:
             conn.close()
             return render_template('login.html', error="Invalid Login: Please try again.")
@@ -59,6 +59,23 @@ def createAccount():
         return redirect(url_for('home'))
     elif request.method == 'GET':
         return render_template('createAccount.html')
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    if request.method == 'POST':
+        return redirect(url_for('home'))
+    else:
+        currentUser = session['currentUser']
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM users WHERE USER_KEY = (?)", [currentUser])
+        user = cur.fetchone()
+        conn.close()
+        if (user is None):
+            return redirect(url_for('home'))
+        else:
+            return render_template('dashboard.html')
 
 
 if __name__ == '__main__':

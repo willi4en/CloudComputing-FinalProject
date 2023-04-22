@@ -1,6 +1,5 @@
 import sqlite3
 import csv
-import pandas
 
 connection = sqlite3.connect('database.db')
 
@@ -11,6 +10,7 @@ connection.commit()
 
 cursor = connection.cursor()
 
+# Storing household table
 householdFile = open('./data/400_households.csv')
 householdContents = csv.reader(householdFile)
 next(householdContents)
@@ -30,7 +30,6 @@ transactionsContents = csv.reader(transactionsFile)
 next(transactionsContents)
 insert_transactions = "INSERT INTO transactions (BASKET_NUM, HSHD_NUM, PURCHASE, PRODUCT_NUM, SPEND, UNITS, STORE_R, WEEK_NUM, YEAR) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
 cursor.executemany(insert_transactions, transactionsContents)
-
 
 connection.commit()
 
