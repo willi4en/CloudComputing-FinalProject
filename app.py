@@ -21,9 +21,9 @@ def get_data(hshd_num=10):
     data = []
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM households WHERE HSHD_NUM = (?)", [10])
+    cur.execute("SELECT * FROM households WHERE HSHD_NUM = (?)", [hshd_num])
     household_data = cur.fetchone()
-    cur.execute("SELECT * FROM transactions WHERE HSHD_NUM = (?)", [10])
+    cur.execute("SELECT * FROM transactions WHERE HSHD_NUM = (?)", [hshd_num])
     transactions_data = cur.fetchall()
     for transaction in transactions_data:
         product_num = transaction[4]
@@ -32,7 +32,7 @@ def get_data(hshd_num=10):
         product_data = cur.fetchall()
         for product in product_data:
             table_row = {
-                'HSHD_NUM': 10,
+                'HSHD_NUM': hshd_num,
                 'AGE_RANGE': household_data[2],
                 'BASKET_NUM': transaction[1],
                 'PURCHASE': transaction[3],
@@ -53,7 +53,11 @@ def get_data(hshd_num=10):
                 'CHILDREN': household_data[8]
             }
             data.append(table_row)
-    data = pd.DataFrame(data).sort_values(['HSHD_NUM', 'BASKET_NUM', 'PURCHASE', 'PRODUCT_NUM', 'DEPARTMENT', 'COMMODITY'])
+    data = pd.DataFrame(data)
+    if not data.empty:
+        data = data.sort_values(['HSHD_NUM', 'BASKET_NUM', 'PURCHASE', 'PRODUCT_NUM', 'DEPARTMENT', 'COMMODITY'])
+    else:
+        data = pd.DataFrame()
     return data
 
 
@@ -124,6 +128,16 @@ def sample_data_pull_10():
     data = get_data(10)
     return render_template('sample_data_pull_10.html', data=data)
 
+@app.route('/interactive_search', methods=['GET', 'POST'])
+def interactive_search():
+    if request.method == 'POST':
+        hshd_num = request.form['hshd_num']
+        data = get_data(hshd_num)
+        if data.empty:
+            return render_template('interactive_search.html', data=data, hshd_num=hshd_num, error="Selected HSHD # does not exist in the database.")
+        else:
+            return render_template('interactive_search.html', data=data, hshd_num=hshd_num)
+    return render_template('interactive_search.html', data=pd.DataFrame(), hshd_num=None)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
