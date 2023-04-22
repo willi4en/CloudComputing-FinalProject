@@ -26,13 +26,16 @@
         <h1>Data Pull for HSHD_NUM {{hshd_num}}</h1>
         </div>
         <div>
-          <table>
+          <a href="{{url_for('home')}}"><button>Home</button></a>
+        </div>
+        <div style="overflow-x:auto;">
+          <table id="search_table">
             <thead>
               <tr>
                 <th style="color: purple;">HSHD_NUM</th>
-                <th style="color: turquoise;">BASKET_NUM</th>
-                <th style="color: turquoise;">PURCHASE</th>
-                <th style="color: turquoise;">PRODUCT_NUM</th>
+                <th style="color: turquoise;" onclick="sortTable(0)">BASKET_NUM</th>
+                <th style="color: turquoise;" onclick="sortTable(1)">PURCHASE</th>
+                <th style="color: turquoise;" onclick="sortTable(2)">PRODUCT_NUM</th>
                 <th style="color: orangered;">DEPARTMENT</th>
                 <th style="color: orangered;">COMMODITY</th>
                 <th style="color: turquoise;">SPEND</th>
@@ -46,8 +49,8 @@
                 <th style="color: purple;">HOMEOWNER</th>
                 <th style="color: purple;">INCOME_RANGE</th>
                 <th style="color: purple;">HSHD_COMPOSITION</th>
-                <th style="color: purple;">HH_SIZE</th>
-                <th style="color: purple;">CHILDREN</th>
+                <th style="color: purple;" onclick="sortTable(3)">HH_SIZE</th>
+                <th style="color: purple;" onclick="sortTable(4)">CHILDREN</th>
               </tr>
             </thead>
             <tbody>
@@ -76,8 +79,10 @@
               {% endfor %}
             </tbody>
           </table>
+
           </div>
     </div>
     {% endif %}
-  </body>
+  </body> 
+  
 </html>
