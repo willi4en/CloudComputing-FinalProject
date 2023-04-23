@@ -62,6 +62,7 @@ def get_data(hshd_num=10):
         data = pd.DataFrame()
     return data
 
+
 def get_hshd_attrs(hshd_list):
     data = []
     conn = get_db_connection()
@@ -86,9 +87,10 @@ def get_hshd_attrs(hshd_list):
         unique_counts = data.nunique().sort_values().head(3)
         # get the most common values in each of the top 3 columns
         most_common = {}
+        print(unique_counts.index)
         for col in unique_counts.index:
             most_common[col] = data[col].value_counts().idxmax()
-        data = pd.DataFrame(most_common)    
+        data = pd.DataFrame(most_common, index=0)    
     else:
         data = pd.DataFrame()
     return data
@@ -184,10 +186,12 @@ def demographics():
         "SELECT HSHD_NUM FROM transactions GROUP BY HSHD_NUM ORDER BY COUNT(HSHD_NUM) DESC")
     households = cur.fetchmany(3)
     conn.close()
-    top1 = households[0][0]
-    top2 = households[1][0]
-    top3 = households[2][0]
-    print(households, file=sys.stderr)
+    houseNums = [households[0][0], households[1][0], households[2][0]]
+    houseDF = get_hshd_attrs(houseNums)
+
+    top1 = houseDF.columns[0]  # households[0][0]
+    top2 = houseDF.columns[1]  # households[1][0]
+    top3 = houseDF.columns[2]  # households[2][0]
     return render_template('demographics.html', top1=top1, top2=top2, top3=top3)
 
 
