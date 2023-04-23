@@ -62,11 +62,13 @@ def get_data(hshd_num=10):
         data = pd.DataFrame()
     return data
 
+
 def get_hshd_attrs(hshd_list):
     data = []
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM households WHERE HSHD_NUM IN ({})".format(', '.join(['?']*len(hshd_list))), hshd_list)
+    cur.execute("SELECT * FROM households WHERE HSHD_NUM IN ({})".format(
+        ', '.join(['?']*len(hshd_list))), hshd_list)
     household_data = cur.fetchall()
     for household in household_data:
         table_row = {
@@ -79,7 +81,7 @@ def get_hshd_attrs(hshd_list):
             'HSHD_COMPOSITION': household_data[6],
             'HH_SIZE': household_data[7],
             'CHILDREN': household_data[8]
-            }
+        }
         data.append(table_row)
     data = pd.DataFrame(data)
     if not data.empty:
@@ -88,7 +90,7 @@ def get_hshd_attrs(hshd_list):
         most_common = {}
         for col in unique_counts.index:
             most_common[col] = hshd_list[col].value_counts().idxmax()
-        data = pd.DataFrame(most_common)    
+        data = pd.DataFrame(most_common)
     else:
         data = pd.DataFrame()
     return data
@@ -184,10 +186,12 @@ def demographics():
         "SELECT HSHD_NUM FROM transactions GROUP BY HSHD_NUM ORDER BY COUNT(HSHD_NUM) DESC")
     households = cur.fetchmany(3)
     conn.close()
-    top1 = households[0][0]
-    top2 = households[1][0]
-    top3 = households[2][0]
-    print(households, file=sys.stderr)
+    houseNums = [households[0][0], households[1][0], households[2][0]]
+    houseDF = get_hshd_attrs(houseNums)
+
+    top1 = houseDF.columns[0]  # households[0][0]
+    top2 = houseDF.columns[1]  # households[1][0]
+    top3 = houseDF.columns[2]  # households[2][0]
     return render_template('demographics.html', top1=top1, top2=top2, top3=top3)
 
 
