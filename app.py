@@ -87,7 +87,7 @@ def get_hshd_attrs(hshd_list):
         # get the most common values in each of the top 3 columns
         most_common = {}
         for col in unique_counts.index:
-            most_common[col] = hshd_list[col].value_counts().idxmax()
+            most_common[col] = data[col].value_counts().idxmax()
         data = pd.DataFrame(most_common)    
     else:
         data = pd.DataFrame()
