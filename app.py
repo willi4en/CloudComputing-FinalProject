@@ -68,7 +68,8 @@ def get_hshd_attrs(hshd_list):
     data = []
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM households WHERE HSHD_NUM IN ({})".format(', '.join(['?']*len(hshd_list))), hshd_list)
+    cur.execute("SELECT * FROM households WHERE HSHD_NUM IN ({})".format(
+        ', '.join(['?']*len(hshd_list))), hshd_list)
     household_data = cur.fetchall()
     for household in household_data:
         table_row = {
@@ -81,7 +82,7 @@ def get_hshd_attrs(hshd_list):
             'HSHD_COMPOSITION': household[6],
             'HH_SIZE': household[7],
             'CHILDREN': household[8]
-            }
+        }
         data.append(table_row)
     data = pd.DataFrame(data)
     if not data.empty:
@@ -91,7 +92,7 @@ def get_hshd_attrs(hshd_list):
         print(unique_counts.index)
         for col in unique_counts.index:
             most_common[col] = data[col].value_counts().idxmax()
-        data = pd.DataFrame([most_common])    
+        data = pd.DataFrame([most_common])
     else:
         data = pd.DataFrame()
     return data
@@ -190,10 +191,18 @@ def demographics():
     houseNums = [households[0][0], households[1][0], households[2][0]]
     houseDF = get_hshd_attrs(houseNums)
 
-    top1 = houseDF.columns[0]  # households[0][0]
-    top2 = houseDF.columns[1]  # households[1][0]
-    top3 = houseDF.columns[2]  # households[2][0]
-    return render_template('demographics.html', top1=top1, top2=top2, top3=top3)
+    top1Name = houseDF.columns[0]  # households[0][0]
+    top2Name = houseDF.columns[1]  # households[1][0]
+    top3Name = houseDF.columns[2]  # households[2][0]
+    top1Value = houseDF.iat[0, 0]
+    top2Value = houseDF.iat[0, 1]
+    top3Value = houseDF.iat[0, 2]
+    return render_template('demographics.html', top1Name=top1Name, top1Value=top1Value, top2Name=top2Name, top2Value=top2Value, top3Name=top3Name, top3Value=top3Value)
+
+
+@app.route('/importdata')
+def importData():
+    return render_template('importData.html')
 
 @app.route('/importData', methods=['GET', 'POST'])
 def importData():

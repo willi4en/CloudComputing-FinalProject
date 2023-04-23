@@ -5,15 +5,15 @@
     <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
   </head>
   <body>
-    <div>
+    <div style="display: flex; flex-direction: column; margin-left: 10px;">
       <h1>Top 3 Demographics that Appear to Effect Customer Engagement:</h1>
       <br>
-      <label>{{top1}}</label>
-      <label>{{top2}}</label>
-      <label>{{top3}}</label>
-      <a href=dashboard>
-        <button>Dashboard</button>
-      </a>
+      <h3>How the Algorithm Works:</h3>
+      <h4>We start by getting the households that made the most transactions. We then find the top 3 attributes that are most similar between these households.</h4>
+      <br>
+      <label style="color: white">#1 {{top1Name}}: {{top1Value}}</label>
+      <label style="color: white">#2 {{top2Name}}: {{top2Value}}</label>
+      <label style="color: white">#3 {{top3Name}}: {{top3Value}}</label>
     </div>
   </body>
 </html>
