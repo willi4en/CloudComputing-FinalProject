@@ -199,11 +199,6 @@ def demographics():
     top3Value = houseDF.iat[0, 2]
     return render_template('demographics.html', top1Name=top1Name, top1Value=top1Value, top2Name=top2Name, top2Value=top2Value, top3Name=top3Name, top3Value=top3Value)
 
-
-@app.route('/importdata')
-def importData():
-    return render_template('importData.html')
-
 @app.route('/importData', methods=['GET', 'POST'])
 def importData():
     if request.method == 'POST':
