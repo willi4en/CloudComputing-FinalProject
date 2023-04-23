@@ -90,7 +90,7 @@ def get_hshd_attrs(hshd_list):
         print(unique_counts.index)
         for col in unique_counts.index:
             most_common[col] = data[col].value_counts().idxmax()
-        data = pd.DataFrame(most_common, index=0)    
+        data = pd.DataFrame([most_common])    
     else:
         data = pd.DataFrame()
     return data
