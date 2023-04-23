@@ -190,10 +190,18 @@ def demographics():
     houseNums = [households[0][0], households[1][0], households[2][0]]
     houseDF = get_hshd_attrs(houseNums)
 
-    top1 = houseDF.columns[0]  # households[0][0]
-    top2 = houseDF.columns[1]  # households[1][0]
-    top3 = houseDF.columns[2]  # households[2][0]
-    return render_template('demographics.html', top1=top1, top2=top2, top3=top3)
+    top1Name = houseDF.columns[0]  # households[0][0]
+    top2Name = houseDF.columns[1]  # households[1][0]
+    top3Name = houseDF.columns[2]  # households[2][0]
+    top1Value = houseDF.iat[0, 0]
+    top2Value = houseDF.iat[0, 1]
+    top3Value = houseDF.iat[0, 2]
+    return render_template('demographics.html', top1Name=top1Name, top1Value=top1Value, top2Name=top2Name, top2Value=top2Value, top3Name=top3Name, top3Value=top3Value)
+
+
+@app.route('/importdata')
+def importData():
+    return render_template('importData.html')
 
 
 if __name__ == '__main__':
