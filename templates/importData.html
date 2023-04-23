@@ -1,19 +1,28 @@
 <html>
   <head>
-    <title>Dashboard</title>
+    <title>Upload Files</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
   </head>
   <body>
     <div>
-      <h1>This is the dashboard</h1>
+      <h1>Use this to import data</h1>
+      <form action="" method="post" enctype = "multipart/form-data">
+        <label>Household File</label>
+        <input type = "file" placeholder="Select Household CSV" name ="household_data"><br><br>
+        <label>Transactions File</label>
+        <input type = "file" placeholder="Select Transactions CSV" name ="transactions_data"><br><br>
+        <label>Products File</label>
+        <input type = "file" placeholder="Select Products CSV" name ="products_data"><br><br>
+        <input  class="btn btn-default" type ="submit" value ="Upload">
+     </form>   
       <div>
-        <a href=importData>
-          <button>Import Data</button>
-        </a>
         <a href=dashboard>
-            <button>Dashboard</button>
+            <button class="btn btn-default">Dashboard</button>
           </a>
+          {% if msg %}
+          <p><strong>Upload Status: </strong> {{ msg }}</p>
+        {% endif %}
       </div>
     </div>
   </body>

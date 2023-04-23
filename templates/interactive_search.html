@@ -17,6 +17,9 @@
         {% if error %}
           <p class="error"><strong>Error:</strong> {{ error }}
         {% endif %}
+        <div>
+          <a href="{{url_for('dashboard')}}"><button class="btn btn-default">Dashboard</button></a>
+        </div>
       </div>
     </div>
     
@@ -25,11 +28,8 @@
       <div>
         <h1>Data Pull for HSHD_NUM {{hshd_num}}</h1>
         </div>
-        <div>
-          <a href="{{url_for('home')}}"><button>Home</button></a>
-        </div>
         <div style="overflow-x:auto;">
-          <table id="search_table">
+          <table id="search_table" class="table">
             <thead>
               <tr>
                 <th style="color: purple;">HSHD_NUM</th>

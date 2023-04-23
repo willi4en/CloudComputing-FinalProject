@@ -3,6 +3,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3
 import pandas as pd
 import sys
+import csv
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -194,6 +195,52 @@ def demographics():
     top3 = houseDF.columns[2]  # households[2][0]
     return render_template('demographics.html', top1=top1, top2=top2, top3=top3)
 
+@app.route('/importData', methods=['GET', 'POST'])
+def importData():
+    if request.method == 'POST':
+        try:
+            household_file = request.files['household_data']
+            transactions_file = request.files['transactions_data']
+            products_file = request.files['products_data']
+            connection = sqlite3.connect('database.db')
+            cursor = connection.cursor()
+
+            household_file.save('newData/' + household_file.filename)
+            transactions_file.save('newData/' + transactions_file.filename)
+            products_file.save('newData/' + products_file.filename)
+            
+            # Storing household table
+            householdFile = open('newData/' + household_file.filename)
+            householdContents = csv.reader(householdFile)
+            next(householdContents)
+            insert_households = "INSERT INTO households (HSHD_NUM, L, AGE_RANGE, MARITAL, INCOME_RANGE, HOMEOWNER, HSHD_COMPOSITION, HH_SIZE, CHILDREN) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            cursor.executemany(insert_households, householdContents)
+        
+            # Storing products table
+            productsFile = open('newData/' + products_file.filename)
+            productsContents = csv.reader(productsFile)
+            next(productsContents)
+            insert_products = "INSERT INTO products (PRODUCT_NUM, DEPARTMENT, COMMODITY, BRAND_TY, NATURAL_ORGANIC_FLAG) VALUES(?, ?, ?, ?, ?)"
+            cursor.executemany(insert_products, productsContents)
+
+            # Storing transactions table
+            transactionsFile = open('newData/' + transactions_file.filename)
+            transactionsContents = csv.reader(transactionsFile)
+            next(transactionsContents)
+            insert_transactions = "INSERT INTO transactions (BASKET_NUM, HSHD_NUM, PURCHASE, PRODUCT_NUM, SPEND, UNITS, STORE_R, WEEK_NUM, YEAR) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            cursor.executemany(insert_transactions, transactionsContents)
+
+            os.remove('newData/' + household_file.filename)
+            os.remove('newData/' + products_file.filename)
+            os.remove('newData/' + transactions_file.filename)
+
+            return render_template('importData.html', msg="Uploaded files successfully")
+        
+        except Exception as e:
+            return render_template('importData.html', msg=f"Error: An unexpected error occured {e}")
+                    
+    else:
+        return render_template('importData.html')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
