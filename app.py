@@ -71,14 +71,14 @@ def get_hshd_attrs(hshd_list):
     for household in household_data:
         table_row = {
             'HSHD_NUM': household[0],
-            'LOYALTY_FLAG': household_data[1],
-            'AGE_RANGE': household_data[2],
-            'MARITAL': household_data[3],
-            'INCOME_RANGE': household_data[4],
-            'HOMEOWNER': household_data[5],
-            'HSHD_COMPOSITION': household_data[6],
-            'HH_SIZE': household_data[7],
-            'CHILDREN': household_data[8]
+            'LOYALTY_FLAG': household[1],
+            'AGE_RANGE': household[2],
+            'MARITAL': household[3],
+            'INCOME_RANGE': household[4],
+            'HOMEOWNER': household[5],
+            'HSHD_COMPOSITION': household[6],
+            'HH_SIZE': household[7],
+            'CHILDREN': household[8]
             }
         data.append(table_row)
     data = pd.DataFrame(data)
